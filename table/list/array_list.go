@@ -61,7 +61,7 @@ func (a *Array) Remove(index int) interface{} {
 		panic("index out of range")
 	}
 	data := a.data[index]
-	for i := 0; i < a.size; i++ {
+	for i := index; i < a.size-1; i++ {
 		a.data[i] = a.data[i+1]
 	}
 	a.size--
@@ -72,7 +72,6 @@ func (a *Array) Get(index int) interface{} {
 	if index >= a.size || index < 0 {
 		panic("index out of range")
 	}
-
 	return a.data[index]
 }
 
@@ -105,8 +104,9 @@ func (a *Array) String() string {
 
 	builder := strings.Builder{}
 	builder.WriteString("[")
-	for i, v := range a.data {
-		builder.WriteString(fmt.Sprintf("%v", v))
+
+	for i := 0; i < a.size; i++ {
+		builder.WriteString(fmt.Sprintf("%v", a.data[i]))
 		if i != a.size-1 {
 			builder.WriteString(",")
 		}

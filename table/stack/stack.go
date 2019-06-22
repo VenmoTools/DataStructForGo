@@ -1,6 +1,7 @@
 package stack
 
 import (
+	"datastruct/table/list"
 	"fmt"
 	"strings"
 )
@@ -15,12 +16,12 @@ type Stack interface {
 
 func NewStack(cap int) Stack {
 	return &ArrayStack{
-		arr: NewArray(cap),
+		arr: list.NewArray(cap),
 	}
 }
 
 type ArrayStack struct {
-	arr *Array
+	arr *list.Array
 }
 
 func (s *ArrayStack) Pop() interface{} {

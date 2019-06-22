@@ -33,7 +33,7 @@ func (t *Tree) Size() int {
 }
 
 func (t *Tree) Add(data int) {
-	t.add(t.root, data)
+	t.root = t.add(t.root, data)
 }
 
 func getHeight(node *Node) int {
@@ -125,6 +125,7 @@ func leftRotate(node *Node) *Node {
 
 func (t *Tree) add(node *Node, data int) *Node {
 	if node == nil {
+		t.size++
 		return NewNode(data)
 	}
 	if node.data > data {
@@ -132,8 +133,8 @@ func (t *Tree) add(node *Node, data int) *Node {
 	} else if node.data < data {
 		node.left = t.add(node.left, data)
 	}
-	node.height = max(getHeight(node.left), getHeight(node.right)) + 1
 
+	node.height = max(getHeight(node.left), getHeight(node.right)) + 1
 	nodeBalance := getBalanceFactor(node)
 
 	// 当前平衡因子大于1并且左子树的平衡因子大于0
@@ -163,7 +164,7 @@ func (t *Tree) add(node *Node, data int) *Node {
 	 *            / \
 	 *           h   g (h=1)
 	 */
-	if nodeBalance < 1 && getBalanceFactor(node.right) <= 0 {
+	if nodeBalance < -1 && getBalanceFactor(node.right) <= 0 {
 		return leftRotate(node)
 	}
 
@@ -178,14 +179,14 @@ func (t *Tree) add(node *Node, data int) *Node {
 	*         \
 	*          g (h=1)
 	 */
-
+	// LR
 	if nodeBalance > 1 && getBalanceFactor(node.right) < 0 {
-		node.left = leftRotate(node)
+		node.left = leftRotate(node.left)
 		return rightRotate(node)
 	}
-
-	if nodeBalance < 1 && getBalanceFactor(node.right) > 0 {
-		node.right = rightRotate(node)
+	// RL
+	if nodeBalance < -1 && getBalanceFactor(node.right) > 0 {
+		node.right = rightRotate(node.right)
 		return leftRotate(node)
 	}
 
