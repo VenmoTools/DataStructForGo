@@ -6,7 +6,7 @@ func TestArray_Add(t *testing.T) {
 
 	arr := NewArray(5)
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 50; i++ {
 		arr.Add(i)
 	}
 
@@ -38,8 +38,13 @@ func TestArray_Find(t *testing.T) {
 func TestArray_Get(t *testing.T) {
 	arr := NewArray(5)
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 10; i++ {
 		arr.Add(i)
+	}
+
+	for i := 0; i < arr.Size(); i++ {
+		t.Log(arr.Get(i))
+
 	}
 	data := arr.Get(1)
 

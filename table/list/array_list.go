@@ -23,7 +23,7 @@ func (a *Array) GetCapacity() int {
 }
 
 func (a *Array) Add(data interface{}) {
-	if len(a.data) == a.size-1 {
+	if a.size >= len(a.data) {
 		a.resize()
 	}
 	a.data[a.size] = data
@@ -69,7 +69,7 @@ func (a *Array) Remove(index int) interface{} {
 }
 
 func (a *Array) Get(index int) interface{} {
-	if index >= a.size || index < 0 {
+	if index > a.size || index < 0 {
 		panic("index out of range")
 	}
 	return a.data[index]

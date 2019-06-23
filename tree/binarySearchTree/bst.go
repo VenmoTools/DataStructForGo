@@ -1,6 +1,9 @@
 package binarySearchTree
 
-import "fmt"
+import (
+	"datastruct/table/list"
+	"fmt"
+)
 
 type Node struct {
 	data  int
@@ -94,6 +97,29 @@ func (a *BST) findMax(node *Node) *Node {
 		return node
 	}
 	return a.findMin(node.right)
+}
+
+func (a *BST) IsOrdered() bool {
+	arr := list.NewArray(5)
+
+	a.isOrdered(a.root, arr)
+
+	for i := 1; i < arr.Size(); i++ {
+		if arr.Get(i-1).(int) > arr.Get(i).(int) {
+			return false
+		}
+	}
+	return true
+}
+
+func (a *BST) isOrdered(node *Node, array *list.Array) {
+
+	if node == nil {
+		return
+	}
+	a.isOrdered(node.left, array)
+	array.Add(node.data)
+	a.isOrdered(node.right, array)
 }
 
 func (a *BST) Remove(data int) int {

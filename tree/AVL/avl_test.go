@@ -25,14 +25,32 @@ func TestTree_Contains(t *testing.T) {
 }
 
 func TestTree_InOrder(t *testing.T) {
+	tree := New()
 
+	for i := 0; i < 5; i++ {
+		tree.Add(i)
+	}
+	tree.InOrder()
 }
 
 func TestTree_LastOrder(t *testing.T) {
+	tree := New()
 
+	for i := 0; i < 5; i++ {
+		tree.Add(i)
+	}
+	tree.LastOrder()
 }
 func TestTree_PreOrder(t *testing.T) {
+	tree := New()
+	for i := 0; i < 5; i++ {
+		tree.Add(i)
+	}
+	tree.PreOrder()
 
+	t.Log(tree.IsOrdered())
+
+	t.Log(tree.IsBalanced())
 }
 
 func TestTree_RemoveMax(t *testing.T) {

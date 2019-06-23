@@ -1,7 +1,9 @@
 package AVL
 
 import (
+	"datastruct/table/list"
 	"fmt"
+	"math"
 )
 
 type Node struct {
@@ -106,7 +108,7 @@ func leftRotate(node *Node) *Node {
 	x := t2.left
 
 	t2.left = node
-	node.left = x
+	node.right = x
 
 	/*
 	 * After
@@ -271,7 +273,7 @@ func (t *Tree) removeMin(node *Node) *Node {
 }
 
 func (t *Tree) Remove(data int) {
-
+	t.remove(t.root, data)
 }
 
 func (t *Tree) remove(node *Node, data int) *Node {
@@ -339,4 +341,49 @@ func (a *Tree) lastOrder(node *Node) {
 	a.order(node.left)
 	a.order(node.right)
 	fmt.Println(node.data)
+}
+
+func (a *Tree) IsOrdered() bool {
+	arr := list.NewArray(5)
+
+	for a.Size() == 0 {
+
+	}
+	a.isOrdered(a.root, arr)
+
+	for i := 1; i < arr.Size(); i++ {
+		if arr.Get(i-1).(int) < arr.Get(i).(int) {
+			return false
+		}
+	}
+	return true
+}
+
+func (a *Tree) isOrdered(node *Node, array *list.Array) {
+
+	if node == nil {
+		return
+	}
+	a.isOrdered(node.left, array)
+	array.Add(node.data)
+	a.isOrdered(node.right, array)
+}
+
+func (a *Tree) IsBalanced() bool {
+	return a.isBalanced(a.root)
+}
+
+func (a *Tree) isBalanced(node *Node) bool {
+	if node == nil {
+		return true
+	}
+
+	balance := getBalanceFactor(node)
+	fmt.Println("B:", balance)
+	if math.Abs(float64(balance)) > 1 {
+		return false
+	}
+
+	return a.isBalanced(node.left) && a.isBalanced(node.right)
+
 }
