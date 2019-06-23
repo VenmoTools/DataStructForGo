@@ -63,7 +63,7 @@ func getBalanceFactor(node *Node) int {
 func rightRotate(node *Node) *Node {
 	/*
 	*  Before
-	*          T
+	*         node
 	*        /   \
 	*       T2    z
 	*      /  \
@@ -82,20 +82,24 @@ func rightRotate(node *Node) *Node {
 	 * After
 	 *       T2
 	 *      /  \
-	 *     y    T
+	 *     y   node
 	 *    /    / \
 	 *   g    x   z
 	 */
-	node.height = max(getHeight(node.left), getHeight(node.right)) + 1
-	t2.height = max(getHeight(t2.left), getHeight(node.right)) + 1
+	node.height = newNodeHeight(node)
+	t2.height = newNodeHeight(t2)
 	return t2
+}
+
+func newNodeHeight(node *Node) int {
+	return max(getHeight(node.left), getHeight(node.right)) + 1
 }
 
 func leftRotate(node *Node) *Node {
 
 	/*
 	* Before
-	*        T
+	*       node
 	*      /   \
 	*     z    T2
 	*         /  \
@@ -115,13 +119,12 @@ func leftRotate(node *Node) *Node {
 	 *
 	 *          T2
 	 *         /  \
-	 *        T    y
+	 *      node   y
 	 *       / \    \
 	 *      z   x    g
 	 */
-
-	node.height = max(getHeight(node.left), getHeight(node.right)) + 1
-	t2.height = max(getHeight(node.left), getHeight(node.right)) + 1
+	node.height = newNodeHeight(node)
+	t2.height = newNodeHeight(t2)
 	return t2
 }
 
@@ -130,15 +133,18 @@ func (t *Tree) add(node *Node, data int) *Node {
 		t.size++
 		return NewNode(data)
 	}
-	if node.data > data {
+
+	if data > node.data {
 		node.right = t.add(node.right, data)
-	} else if node.data < data {
+	} else if data < node.data {
 		node.left = t.add(node.left, data)
+	} else {
+		node.data = data
 	}
 
-	node.height = max(getHeight(node.left), getHeight(node.right)) + 1
-	nodeBalance := getBalanceFactor(node)
+	node.height = newNodeHeight(node)
 
+	nodeBalance := getBalanceFactor(node)
 	// 当前平衡因子大于1并且左子树的平衡因子大于0
 	/*
 	 * Left
@@ -182,7 +188,7 @@ func (t *Tree) add(node *Node, data int) *Node {
 	*          g (h=1)
 	 */
 	// LR
-	if nodeBalance > 1 && getBalanceFactor(node.right) < 0 {
+	if nodeBalance > 1 && getBalanceFactor(node.left) < 0 {
 		node.left = leftRotate(node.left)
 		return rightRotate(node)
 	}
@@ -352,7 +358,7 @@ func (a *Tree) IsOrdered() bool {
 	a.isOrdered(a.root, arr)
 
 	for i := 1; i < arr.Size(); i++ {
-		if arr.Get(i-1).(int) < arr.Get(i).(int) {
+		if arr.Get(i-1).(int) > arr.Get(i).(int) {
 			return false
 		}
 	}

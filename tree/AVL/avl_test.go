@@ -46,7 +46,7 @@ func TestTree_PreOrder(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		tree.Add(i)
 	}
-	tree.PreOrder()
+	tree.InOrder()
 
 	t.Log(tree.IsOrdered())
 
