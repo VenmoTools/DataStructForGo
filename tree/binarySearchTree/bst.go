@@ -105,7 +105,7 @@ func (a *BST) IsOrdered() bool {
 	a.isOrdered(a.root, arr)
 
 	for i := 1; i < arr.Size(); i++ {
-		if arr.Get(i-1).(int) > arr.Get(i).(int) {
+		if arr.Get(i-1) > arr.Get(i) {
 			return false
 		}
 	}

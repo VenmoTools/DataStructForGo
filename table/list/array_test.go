@@ -1,6 +1,9 @@
 package list
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 func TestArray_Add(t *testing.T) {
 
@@ -142,4 +145,24 @@ func TestArray_RemoveLast(t *testing.T) {
 		t.Log(arr)
 		t.FailNow()
 	}
+}
+
+func TestArray_SelectSort(t *testing.T) {
+	arr := NewArray(5)
+
+	for i := 0; i < 20; i++ {
+		arr.Add(rand.Intn(10))
+	}
+	arr.SelectSort()
+	t.Log(arr.Sorted())
+}
+
+func TestArray_BinaryFind(t *testing.T) {
+	arr := NewArray(5)
+
+	for i := 0; i < 20; i++ {
+		arr.Add(i)
+	}
+	index := arr.BinaryFind(5)
+	t.Log(index)
 }

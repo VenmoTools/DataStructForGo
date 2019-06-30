@@ -14,7 +14,7 @@ type Stack interface {
 	Peek() interface{}
 }
 
-func NewStack(cap int) Stack {
+func NewArrayStack(cap int) Stack {
 	return &ArrayStack{
 		arr: list.NewArray(cap),
 	}

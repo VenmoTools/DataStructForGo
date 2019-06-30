@@ -6,7 +6,7 @@ import (
 )
 
 func TestArrayStack_Push(t *testing.T) {
-	stack := NewStack(10)
+	stack := NewArrayStack(10)
 	stack.Push(5)
 	stack.Push(5)
 	stack.Push(5)
