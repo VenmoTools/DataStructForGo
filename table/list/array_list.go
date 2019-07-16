@@ -136,6 +136,17 @@ func (a *Array) BinaryFind2(data int) int {
 	return -1
 }
 
+func (a *Array) Swap(i, j int) {
+	if i < 0 || i >= a.size || j < 0 || j >= a.size {
+		panic("index is illegal")
+	}
+
+	temp := a.data[i]
+	a.data[i] = a.data[j]
+	a.data[j] = temp
+
+}
+
 func (a *Array) String() string {
 
 	builder := strings.Builder{}
@@ -187,5 +198,17 @@ func NewArray(cap int) *Array {
 	return &Array{
 		data: make([]int, cap),
 		size: 0,
+	}
+}
+
+func NewArray2(data []int) *Array {
+
+	arr := make([]int, len(data)+5)
+
+	copy(arr, data)
+
+	return &Array{
+		data: arr,
+		size: len(arr),
 	}
 }
